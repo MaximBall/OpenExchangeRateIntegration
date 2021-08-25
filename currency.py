@@ -1,14 +1,8 @@
-import json
 import csv
 from functools import lru_cache
 import time
 
-# with open("currency.txt", "r") as f:
-#     data = json.load(f)
-# print(data[currency])
 
-
-@lru_cache(maxsize=256)
 def get_currency(currency):
     with open('currency.csv', newline='') as csvfile:
         reader = csv.DictReader(csvfile)
@@ -20,13 +14,21 @@ def get_currency(currency):
     return need_currency
 
 
-currency = input("Input currency name - ")
-start = time.time()
-value_currency = get_currency(currency)
-end = time.time()
-print(value_currency, start, end)
+def all_currencies():
+    with open('currency.csv', newline='') as csvfile:
+        reader = csv.DictReader(csvfile)
+        currencies = {
+            row['currency_name']: row['currency']
+            for row in reader
+        }
+    return currencies
 
-start = time.time()
-value_currency = get_currency(currency)
-end = time.time()
-print(value_currency, start, end)
+
+if __name__ == "__main__":
+
+    currencies = all_currencies()
+    print(currencies)
+
+    # currency = input("Input currency name - ")
+    # value_currency = get_currency(currency)
+
